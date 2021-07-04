@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Owen Osborn, Critter & Gutiari, Inc.
+ * Copyright (c) 2020 Owen Osborn, Critter & Guitari, Inc.
  *
  * BSD Simplified License.
  * For information on usage and redistribution, and for a DISCLAIMER OF ALL
