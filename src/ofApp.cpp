@@ -22,6 +22,8 @@ void ofApp::setup() {
     ofHideCursor();
 
     ofSetBackgroundColor(0,0,0);
+    // Background redraw is managed manually to allow user toggling of persistence
+    ofSetBackgroundAuto(false);
 
     // setup audio
     soundStream.printDeviceList();
@@ -48,12 +50,15 @@ void ofApp::setup() {
     settings.bufferSize = bufferSize;
     soundStream.setup(settings);
 
-    //some path, may be absolute or relative to bin/data
+    // initialize device settings
+    persist = false;
+
+    // some path, may be absolute or relative to bin/data
     string path = "/sdcard/Modes/oFLua";
     ofDirectory dir(path);
     dir.listDir();
 
-    //go through and print out all the paths
+    // go through and print out all the paths
     for(int i = 0; i < dir.size(); i++){
         ofLogNotice(dir.getPath(i) + "/main.lua");
         scripts.push_back(dir.getPath(i) + "/main.lua");
@@ -119,7 +124,8 @@ void ofApp::update() {
             }
             // Persist toggle
             if (m.getArgAsInt32(0) == 3 && m.getArgAsInt32(1) > 0) {
-                cout << "change persist" << "\n";
+                persist = !persist;
+                cout << "change persist: " << persist << "\n";
             }
         }
         if(m.getAddress() == "/knobs") {
@@ -142,6 +148,11 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+
+    // Re-draw background whenever persistence is disabled
+    if (!persist) {
+      ofBackground(ofGetBackgroundColor());
+    }
 
     lua.setNumberVector("inL", left);
     lua.setNumberVector("inR", right);
