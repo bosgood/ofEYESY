@@ -23,22 +23,22 @@ class ofApp : public ofBaseApp, ofxLuaListener {
         void update();
         void draw();
         void exit();
-        
+
         // input
         void keyPressed(int key);
         void mouseMoved(int x, int y);
         void mouseDragged(int x, int y, int button);
         void mousePressed(int x, int y, int button);
         void mouseReleased(int x, int y, int button);
-        
+
         // ofxLua error callback
         void errorReceived(std::string& msg);
-        
+
         // script control
         void reloadScript();
         void nextScript();
         void prevScript();
-    
+
         ofxLua lua;
         vector<string> scripts;
         size_t currentScript;
@@ -48,16 +48,16 @@ class ofApp : public ofBaseApp, ofxLuaListener {
 
         // audio stuff
         void audioIn(ofSoundBuffer & input);
-    
+
         vector <lua_Number> left;
         vector <lua_Number> right;
 
         int     bufferCounter;
         int     drawCounter;
-    
+
         float smoothedVol;
         float scaledVol;
-        
+
         ofSoundStream soundStream;
 
         int                 snapCounter;
