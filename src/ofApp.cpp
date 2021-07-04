@@ -91,15 +91,19 @@ void ofApp::update() {
         receiver.getNextMessage(m);
         //cout << "new message on port " << PORT << m.getAddress() << "\n";
 
+        // Button implementations
         if(m.getAddress() == "/key") {
+            // Previous mode
             if (m.getArgAsInt32(0) == 4 && m.getArgAsInt32(1) > 0) {
                 cout << "back" << "\n";
                 prevScript();
             }
+            // Next mode
             if (m.getArgAsInt32(0) == 5 && m.getArgAsInt32(1) > 0) {
                 cout << "fwd" << "\n";
                 nextScript();
             }
+            // Screen grab
             if (m.getArgAsInt32(0) == 9 && m.getArgAsInt32(1) > 0) {
                 img.grabScreen(0,0,ofGetWidth(),ofGetHeight());
                 string fileName = "snapshot_"+ofToString(10000+snapCounter)+".png";
@@ -108,10 +112,12 @@ void ofApp::update() {
                 cout << "saved\n";
                 snapCounter++;
             }
+            // Trigger
             if (m.getArgAsInt32(0) == 10 && m.getArgAsInt32(1) > 0) {
                 cout << "trig" << "\n";
                 lua.setBool("trig", true);
             }
+            // Persist toggle
             if (m.getArgAsInt32(0) == 3 && m.getArgAsInt32(1) > 0) {
                 cout << "change persist" << "\n";
             }
