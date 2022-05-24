@@ -19,7 +19,10 @@ void ofApp::setup() {
     ofSetFrameRate(60);
     ofSetLogLevel("ofxLua", OF_LOG_VERBOSE);
 
-    ofHideCursor();
+    std::string envShowCursor = std::getenv("EYESY_SHOW_CURSOR");
+    if (envShowCursor != "true") {
+      ofHideCursor();
+    }
 
     ofSetBackgroundColor(0,0,0);
     // Background redraw is managed manually to allow user toggling of persistence
@@ -54,8 +57,12 @@ void ofApp::setup() {
     persist = false;
 
     // some path, may be absolute or relative to bin/data
-    string path = "/sdcard/Modes/oFLua";
-    ofDirectory dir(path);
+    if (const char *envDataRootPath = std::getenv("EYESY_DATA_ROOT")) {
+      dataRoot = envDataRootPath;
+    }
+    std::string modesPath = dataRoot + "/Modes/oFLua";
+
+    ofDirectory dir(modesPath);
     dir.listDir();
 
     // go through and print out all the paths
@@ -111,9 +118,9 @@ void ofApp::update() {
             // Screen grab
             if (m.getArgAsInt32(0) == 9 && m.getArgAsInt32(1) > 0) {
                 img.grabScreen(0,0,ofGetWidth(),ofGetHeight());
-                string fileName = "snapshot_"+ofToString(10000+snapCounter)+".png";
+                std::string fileName = "snapshot_"+ofToString(10000+snapCounter)+".png";
                 cout << "saving " + fileName + "...";
-                img.save("/sdcard/Grabs/" + fileName);
+                img.save(dataRoot + "/Grabs/" + fileName);
                 cout << "saved\n";
                 snapCounter++;
             }

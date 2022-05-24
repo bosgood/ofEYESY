@@ -40,7 +40,8 @@ class ofApp : public ofBaseApp, ofxLuaListener {
         void prevScript();
 
         ofxLua lua;
-        vector<string> scripts;
+        std::string dataRoot = "/sdcard";
+        vector<std::string> scripts;
         size_t currentScript;
 
         // osc control
@@ -61,7 +62,7 @@ class ofApp : public ofBaseApp, ofxLuaListener {
         ofSoundStream soundStream;
 
         int                 snapCounter;
-        string              snapString;
+        std::string         snapString;
         ofImage             img;
         bool                persist;
 };

@@ -11,7 +11,22 @@
 #include "ofApp.h"
 
 int main() {
-    ofSetupOpenGL(1920, 1080, OF_FULLSCREEN);
+    ofWindowMode windowMode = OF_FULLSCREEN;
+    std::string envShowWindow = std::getenv("EYESY_SHOW_WINDOW");
+    if (envShowWindow == "true") {
+      windowMode = OF_WINDOW;
+    }
+    int screenWidth = 1920;
+    int screenHeight = 1080;
+    std::string envScreenWidth = std::getenv("EYESY_SCREEN_WIDTH");
+    std::string envScreenHeight = std::getenv("EYESY_SCREEN_HEIGHT");
+    try {
+      screenWidth = std::stoi(envScreenWidth);
+      screenHeight = std::stoi(envScreenHeight);
+    } catch (exception& e) {}
+    ofSetupOpenGL(screenWidth, screenHeight, windowMode);
+
+    // ofSetupOpenGL(1920, 1080, OF_FULLSCREEN);
     //ofSetupOpenGL(1280, 720, OF_FULLSCREEN);
     ofRunApp(new ofApp());
 }
